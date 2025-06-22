@@ -1,3 +1,9 @@
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var _ProductType_img;
 // biên dịch sang es5, es6 sẽ khác nhau
 let title = "cybersoft";
 {
@@ -43,7 +49,132 @@ if (typeof res2 === "number") {
     res2++;
 }
 // 1 + "11" = ??? => 111
-let test = 1 + "11";
-console.log(test, typeof test);
+// let test = 1 + "11";
+// console.log(test, typeof test);
+// console.log("abc");
 // let test2 = "11" - 1;
 // console.log("test2: ", test2);
+/*
+    function type
+    kiểu dữ liệu trả về của hàm
+    (input1: type, input2: type): responseType => {
+        return response;
+    }
+*/
+let tinhTong = (a, b) => {
+    return a + b;
+};
+const dtb = tinhTong(3, 3);
+// viết 1 function nhận vào 1 tham số là chuỗi và trả về chuỗi "Hello" + tham số
+const sayHello = (name) => {
+    return `Hello ${name}`;
+};
+sayHello("ABC");
+let renderContent = (callback, content, selector) => {
+    // document.querySelector("#content").innerHTML = `
+    //     <h1>Chào mừng bạn đến với Cybersoft: ${content}</h1>
+    // `;
+    callback(selector, content);
+};
+let renderCard = (selector, noiDung) => {
+    if (document.querySelector(selector)) {
+        document.querySelector(selector).innerHTML = noiDung;
+    }
+};
+renderContent(renderCard, "<p style='color: red'>Hello Cybersoft BC81</p>", "#content");
+let renderTitle = (title) => {
+    document.querySelector(".title").innerHTML = title;
+};
+// renderContent(renderTitle, "Đây là bài học Typescript");
+renderContent(renderCard, "Đây là bài học Typescript", ".title");
+let res3 = "string";
+res3 = 124;
+res3 = null;
+let product1 = { id: "1", name: "iphone", price: 6000 };
+let product2 = {
+    id: "1",
+    name: "iphone",
+    price: 6000,
+    description: "đây là iphone",
+};
+let student1 = {
+    id: "111",
+    fullName: "Nguyễn Văn A",
+    email: "a@gmail.com",
+    phone: "090826262627",
+};
+let student2 = {
+    id: "111",
+    fullName: "Nguyễn Văn A",
+    email: "a@gmail.com",
+    phone: "090826262627",
+    address: "abcjs",
+};
+class Button {
+}
+class Banner {
+}
+let divA = {
+    id: "",
+    className: "",
+    onclick: (e) => {
+        // xử lý click
+    },
+};
+/*
+    Sự khác biệt giữa type và interface:
+    ** Khi nào dùng interface:
+    Khi cần mô tả cấu trúc của một đối tượng hoặc một class
+    khi cần tận dụng tính năng mở rộng (extend) hoặc implement
+    Khi cần hỗ trợ OOP
+
+    ** Khi nào dùng type:
+    khi cần định nghĩa format cho 1 kiểu dữ liệu phức tạp
+    Khi cần khai báo các kiểu dữ liệu nâng cao như function type
+*/
+class ProductType {
+    constructor() {
+        _ProductType_img.set(this, void 0);
+    }
+    renderProduct() {
+        console.log(__classPrivateFieldGet(this, _ProductType_img, "f"));
+    }
+}
+_ProductType_img = new WeakMap();
+let product5 = new ProductType();
+// product5.img; // ko truy xuất được img do img là thuộc tính private
+class NhanVien {
+    constructor() {
+        this.maNhanVien = "";
+        this.hoTen = "";
+        this.luong = 0;
+        this.bonus = 1000;
+    }
+    hienThiLuong() {
+        console.log(this.luong); // OK: Truy cập private từ bên trong lớp
+    }
+    hienThiBonus() {
+        console.log(this.bonus); // OK: Truy cập private từ bên trong lớp
+    }
+    getBonus() {
+        return this.bonus;
+    }
+}
+class NhanVienFullTime extends NhanVien {
+    // private hienThiBonus(): void {
+    //     console.log(this.bonus); // OK: Truy cập protected từ lớp con
+    // }
+    hienThiLuong() {
+        // console.log(this.luong); // Lỗi: private không truy cập từ bên ngoài được
+    }
+    handleBonus() {
+        const bonusParent = this.getBonus();
+        // xử lý logic
+    }
+}
+const nv = new NhanVien();
+nv.maNhanVien = "NV001"; // OK: Truy cập public
+nv.hoTen = "Nguyễn Văn A"; // OK: Truy cập public
+// nv.luong = 2000; // Lỗi: Không thể truy cập private từ bên ngoài
+// nv.bonus = 500; // Lỗi: Không thể truy cập protected từ bên ngoài
+nv.hienThiLuong(); // OK: Truy cập public
